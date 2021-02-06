@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 11.00
+# ModBuddy Solution File, Format Version 11.00
+Project("{0ebaeb70-678c-4ae5-8a04-968018c118e4}") = "Enlightenment Era (Vox Populi)", "Enlightenment Era (Vox Populi)\Enlightenment Era (Vox Populi).civ5proj", "{246b7052-befb-43a2-a277-9e4e764db980}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Default|x86 = Default|x86
+		Deploy Only|x86 = Deploy Only|x86
+		Package Only|x86 = Package Only|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{246b7052-befb-43a2-a277-9e4e764db980}.Default|x86.ActiveCfg = Default|x86
+		{246b7052-befb-43a2-a277-9e4e764db980}.Default|x86.Build.0 = Default|x86
+		{246b7052-befb-43a2-a277-9e4e764db980}.Deploy Only|x86.ActiveCfg = Deploy Only|x86
+		{246b7052-befb-43a2-a277-9e4e764db980}.Deploy Only|x86.Build.0 = Deploy Only|x86
+		{246b7052-befb-43a2-a277-9e4e764db980}.Package Only|x86.ActiveCfg = Package Only|x86
+		{246b7052-befb-43a2-a277-9e4e764db980}.Package Only|x86.Build.0 = Package Only|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
