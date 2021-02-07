@@ -147,11 +147,11 @@ INSERT INTO Building_BuildingClassYieldChanges (BuildingType, BuildingClassType,
 ('BUILDING_EE_SMITHSONIAN', 'BUILDINGCLASS_MUSEUM', 'YIELD_CULTURE', 1);
 
 INSERT INTO Building_ThemingBonuses (BuildingType, Description, Bonus, MustBeArtifact, RequiresUniquePlayers, AIPriority)
-VALUES ('BUILDING_EE_SMITHSONIAN', 'TXT_KEY_THEMING_BONUS_EE_SMITHSONIAN', 3, 1, 1, 5);
+VALUES ('BUILDING_EE_SMITHSONIAN', 'TXT_KEY_THEMING_BONUS_EE_SMITHSONIAN', 6, 1, 1, 5);
 
 INSERT INTO Building_ThemingYieldBonus (BuildingType, YieldType, Yield) VALUES
-('BUILDING_EE_SMITHSONIAN', 'YIELD_SCIENCE', 3),
-('BUILDING_EE_SMITHSONIAN', 'YIELD_GOLD', 3);
+('BUILDING_EE_SMITHSONIAN', 'YIELD_SCIENCE', 6),
+('BUILDING_EE_SMITHSONIAN', 'YIELD_GOLD', 6);
 
 ----------------------------------------------
 -- Topkapi

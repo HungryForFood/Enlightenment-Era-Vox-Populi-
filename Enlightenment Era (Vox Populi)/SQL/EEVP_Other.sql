@@ -4,7 +4,10 @@
 -- 2018-02-01 Reworked by Infixo from EE & VP-EE mods
 ----------------------------------------------------
 
-
+----------------------------------------------------
+-- CUSTOM MOD OPTIONS
+----------------------------------------------------
+UPDATE CustomModOptions SET Value = 1 WHERE Name = 'CORE_AREA_EFFECT_PROMOTIONS';
 
 ----------------------------------------------------
 -- WORLD CONGRESS
@@ -72,7 +75,12 @@ INSERT INTO IconTextureAtlases (Atlas, IconSize, Filename, IconsPerRow, IconsPer
 ('EECBO_ICON_ATLAS',256,'Mausoleum256.dds',1,1),
 ('EECBO_ICON_ATLAS',128,'Mausoleum128.dds',1,1),
 ('EECBO_ICON_ATLAS',64,'Mausoleum64.dds',1,1),
-('EECBO_ICON_ATLAS',45,'Mausoleum45.dds',1,1);
+('EECBO_ICON_ATLAS',45,'Mausoleum45.dds',1,1),
+('ENLIGHTENMENT_VP_BUILDING_ATLAS',256,'EnlightenmentVP_Buildings_256.dds',2,2),
+('ENLIGHTENMENT_VP_BUILDING_ATLAS',128,'EnlightenmentVP_Buildings_128.dds',2,2),
+('ENLIGHTENMENT_VP_BUILDING_ATLAS',80,'EnlightenmentVP_Buildings_80.dds',2,2),
+('ENLIGHTENMENT_VP_BUILDING_ATLAS',64,'EnlightenmentVP_Buildings_64.dds',2,2),
+('ENLIGHTENMENT_VP_BUILDING_ATLAS',45,'EnlightenmentVP_Buildings_45.dds',2,2);
 
 INSERT INTO IconTextureAtlases	(Atlas, IconSize, Filename, IconsPerRow, IconsPerColumn) VALUES
 	('vpee_promoAtlas', 256, 'VPEE_promo_icons_256.dds', '8', '1'),

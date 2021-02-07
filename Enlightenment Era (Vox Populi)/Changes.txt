@@ -1,0 +1,32 @@
+--------------------------------------------------------------
+v2 (changes from v1.2.4)
+--------------------------------------------------------------
+Units
+- Ship of the Line combat strength reduced to 45 from 50.
+- Samurai now correctly upgrades to Two-Handed Swordsman.
+- Uhlan combat strength increased to 45 from 40.
+- Cossack combat strength increased to 50 from 45.
+- Galleon range increased to 2 from 1, now no longer able to move after attacking (similar to Frigate).
+- First Rate now obsoletes at Nuclear Fission instead of Dynamite.
+- Changed the Corvette's model as it was the same as the Carrack (thanks Asterix Rage).
+
+Promotions
+- Flagship promotion now updates every time you move a unit, instead of once per turn (different underlying method).
+
+Buildings
+- Gunsmith supply reduced to 1 from 2.
+- Manor now has a new icon.
+- Menagerie now has a new icon.
+
+Wonders
+- Smithsonian theming bonus increased from 3 culture/tourism/science/gold to 6 culture/tourism/science/gold.
+- Versailles bonus to We Love The King Day duration now properly shows in the UI (different underlying method).
+- Fasil Ghebbi combat bonus now checked whenever a unit moves rather than once every turn.
+
+Technologies
+- Adjusted technology costs to be closer to recent Vox Populi changes.
+
+Policies
+- Fixed Galleries gaining +2 Golden Age Points rather than +3 with Freedom's Creative Expressions.
+- Policy values should now change automatically when VP changes (changing types of bonuses still require manual updating).
+- Tooltips should now pick up simple changes from VP (big changes still require manual updating).

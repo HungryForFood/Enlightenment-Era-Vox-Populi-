@@ -14,10 +14,10 @@ INSERT INTO Units (Type, PrereqTech, Combat, Moves, RequiresFaithPurchaseEnabled
 ('UNIT_EE_FIELD_GUN',     'TECH_EE_FLINTLOCK',    21, 2, 1,'TECH_RIFLING',        'UNITCOMBAT_SIEGE',       'DOMAIN_LAND','UNITAI_CITY_BOMBARD',30, 4, 4,'UNITCLASS_FIELD_GUN'),
 ('UNIT_EE_LINE_INFANTRY', 'TECH_EE_FLINTLOCK',    30, 2, 1,'TECH_RIFLING',        'UNITCOMBAT_GUN',         'DOMAIN_LAND','UNITAI_DEFENSE',     30, 1, 1,'UNITCLASS_RIFLEMAN'),
 ('UNIT_EE_SKIRMISHER',    'TECH_EE_FORTIFICATION',25, 2, 1,'TECH_DYNAMITE',       'UNITCOMBAT_ARCHER',      'DOMAIN_LAND','UNITAI_RANGED',      30, 2, 2,'UNITCLASS_GATLINGGUN'),
-('UNIT_EE_UHLAN',         'TECH_RIFLING',         40, 4, 1,'TECH_COMBUSTION',     'UNITCOMBAT_MOUNTED',     'DOMAIN_LAND','UNITAI_FAST_ATTACK', 30, 3, 3,'UNITCLASS_WWI_TANK'),
-('UNIT_EE_CARRACK',       'TECH_ASTRONOMY',       32, 5, 0,'TECH_NAVIGATION',     'UNITCOMBAT_NAVALMELEE',  'DOMAIN_SEA', 'UNITAI_ATTACK_SEA', 50, 9,19,'UNITCLASS_PRIVATEER'),
+('UNIT_EE_UHLAN',         'TECH_RIFLING',         45, 4, 1,'TECH_COMBUSTION',     'UNITCOMBAT_MOUNTED',     'DOMAIN_LAND','UNITAI_FAST_ATTACK', 30, 3, 3,'UNITCLASS_WWI_TANK'),
+('UNIT_EE_CARRACK',       'TECH_ASTRONOMY',       32, 5, 0,'TECH_NAVIGATION',     'UNITCOMBAT_NAVALMELEE',  'DOMAIN_SEA', 'UNITAI_ATTACK_SEA',  50, 9,19,'UNITCLASS_PRIVATEER'),
 ('UNIT_EE_GALLEON',       'TECH_EE_EXPLORATION',  20, 4, 0,'TECH_EE_WARSHIPS',    'UNITCOMBAT_NAVALRANGED', 'DOMAIN_SEA', 'UNITAI_ASSAULT_SEA', 50, 5, 5,'UNITCLASS_FRIGATE'),
-('UNIT_EE_SHIP_OF_THE_LINE','TECH_EE_WARSHIPS',    50, 5, 0,'TECH_INDUSTRIALIZATION','UNITCOMBAT_NAVALMELEE','DOMAIN_SEA','UNITAI_ASSAULT_SEA', 50, 8, 9,'UNITCLASS_IRONCLAD');
+('UNIT_EE_SHIP_OF_THE_LINE','TECH_EE_WARSHIPS',   45, 5, 0,'TECH_INDUSTRIALIZATION','UNITCOMBAT_NAVALMELEE','DOMAIN_SEA', 'UNITAI_ASSAULT_SEA', 50, 8, 9,'UNITCLASS_IRONCLAD');
 
 UPDATE Units
 SET Class = 'UNITCLASS_'||SUBSTR(Type,6), Description = 'TXT_KEY_'||Type,
@@ -124,6 +124,10 @@ INSERT INTO ArtDefine_StrategicView (StrategicViewType, TileType, Asset)
 VALUES ('ART_DEF_UNIT_U_SPANISH_GALLEON', 'Unit', 'sv_Galleon.dds');
 
 -------------------------------------------------------
+-- Change VP Corvette model due to same model with Carrack
+-------------------------------------------------------
+UPDATE ArtDefine_UnitMemberInfos SET Scale = 0.11, Model = 'WarGalleon.fxsxml' WHERE Type = 'ART_DEF_UNIT_MEMBER_CORVETTE';
+-------------------------------------------------------
 -- Adventurer (upgrade from Explorer)
 -------------------------------------------------------
 
@@ -208,7 +212,7 @@ UPDATE Civilization_UnitClassOverrides Set UnitClassType = 'UNITCLASS_EE_UHLAN' 
 
 UPDATE Units
 SET Class = 'UNITCLASS_EE_UHLAN', CombatClass = 'UNITCOMBAT_MOUNTED', GoodyHutUpgradeUnitClass = 'UNITCLASS_WWI_TANK',
-	Range = 0, RangedCombat = 0, Combat = 45, DefaultUnitAI = 'UNITAI_FAST_ATTACK',
+	Range = 0, RangedCombat = 0, Combat = 50, DefaultUnitAI = 'UNITAI_FAST_ATTACK',
 	PrereqTech = 'TECH_RIFLING', ObsoleteTech = 'TECH_COMBINED_ARMS'
 WHERE Type = 'UNIT_RUSSIAN_COSSACK';
 
@@ -451,14 +455,10 @@ INSERT INTO Trait_BuildsUnitClasses	(TraitType, UnitClassType, BuildType) VALUES
 -------------------------------------------------------
 
 UPDATE Units
-SET PrereqTech = 'TECH_NAVIGATION', ObsoleteTech = 'TECH_DYNAMITE', GoodyHutUpgradeUnitClass = 'UNITCLASS_CRUISER', Civilopedia = 'TXT_KEY_UNIT_EE_ENGLISH_FIRST_RATE_PEDIA',
+SET PrereqTech = 'TECH_NAVIGATION', ObsoleteTech = 'TECH_NUCLEAR_FISSION', GoodyHutUpgradeUnitClass = 'UNITCLASS_CRUISER', Civilopedia = 'TXT_KEY_UNIT_EE_ENGLISH_FIRST_RATE_PEDIA',
 	Combat = 28, ShowInPedia = 1,
 	IconAtlas = 'ENLIGHTENMENT_UNIT_ATLAS', PortraitIndex = 8
 WHERE Type = 'UNIT_ENGLISH_SHIPOFTHELINE';
-
-UPDATE Civilization_UnitClassOverrides
-SET UnitClassType = 'UNITCLASS_FRIGATE', UnitType = 'UNIT_ENGLISH_SHIPOFTHELINE'
-WHERE CivilizationType = 'CIVILIZATION_ENGLAND' AND UnitClassType = 'UNITCLASS_EE_SHIP_OF_THE_LINE';
 
 INSERT INTO Unit_FreePromotions (UnitType, PromotionType)
 VALUES ('UNIT_ENGLISH_SHIPOFTHELINE', 'PROMOTION_EE_FIRST_RATE');
@@ -468,12 +468,11 @@ VALUES ('UNIT_ENGLISH_SHIPOFTHELINE', 'PROMOTION_EE_FIRST_RATE');
 -------------------------------------------------------
 
 UPDATE Units
-SET RangedCombat = 29, Range = 1
+SET RangedCombat = 29, Range = 2
 WHERE Type = 'UNIT_EE_GALLEON';
 
 INSERT INTO Unit_FreePromotions (UnitType, PromotionType) VALUES
-('UNIT_EE_GALLEON', 'PROMOTION_ONLY_DEFENSIVE'),
-('UNIT_EE_GALLEON', 'PROMOTION_CAN_MOVE_AFTER_ATTACKING_NAVAL');
+('UNIT_EE_GALLEON', 'PROMOTION_ONLY_DEFENSIVE');
 
 -- Galleass changes
 UPDATE Units
@@ -648,7 +647,7 @@ INSERT INTO Language_en_US (Tag, Text) VALUES
 ('TXT_KEY_UNIT_EE_ENGLISH_FIRST_RATE_STRATEGY', 'The First Rate is England’s unique unit, replacing the Ship of the Line.  Like the Ship of the Line, it is a strong melee ship.  However, it is even stronger than the unit it replaces.  It also provides combat boosts to nearby allied ships when defending.  Use it as part of a larger fleet to greatly increase your naval firepower.'),
 -- Galleon
 ('TXT_KEY_UNIT_EE_GALLEON', 'Galleon'),
-('TXT_KEY_UNIT_EE_GALLEON_HELP', 'Renaissance Era ranged naval Unit. Can enter ocean tiles.'),
+('TXT_KEY_UNIT_EE_GALLEON_HELP', 'Renaissance Era ranged naval Unit. Can enter ocean tiles.[NEWLINE][NEWLINE][COLOR_NEGATIVE_TEXT]Land attacks can only be performed on Coastal Tiles.[ENDCOLOR]'),
 ('TXT_KEY_UNIT_EE_GALLEON_PEDIA', 'A galleon is the design of a multi-story sailing vessel attributed to the Venetians. Employed extensively in the fleets of Spain and other European states to further their naval militaristic interests, the galleon were formidable warships that weighed up to 2000 metric tonnes. The galleon was powered entirely by wind, using sails carried on three or four masts, with a lateen sail continuing to be used on the last (usually third and fourth) masts. They were used in both military and trade applications, most famously in the Spanish treasure fleet, and the Manila Galleons. Demoting the carrack to be used just for cargo, these vessels became the forefront of European armadas and went on to colonize the world.'),
 ('TXT_KEY_UNIT_EE_GALLEON_STRATEGY', 'The Galleon is a Renaissance naval unit.  Upgrading from the Galleass, the Galleon is the first ranged ship to be able to enter Oceans.  Use a fleet of Galleons, supported by larger ships, to conquer overseas cities and protect your overseas holdings.'),
 -- Line Infantry

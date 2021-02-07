@@ -5,11 +5,11 @@
     <ProjectGuid>{246b7052-befb-43a2-a277-9e4e764db980}</ProjectGuid>
     <Name>Enlightenment Era (Vox Populi)</Name>
     <Guid>87b2deae-83cb-9b88-9017-79e741d3739c</Guid>
-    <ModVersion>1</ModVersion>
+    <ModVersion>2</ModVersion>
     <Stability>Stable</Stability>
-    <Teaser>Expands the game to include the [COLOR_POSITIVE_TEXT]Enlightenment Era[ENDCOLOR]. Version 1.2.4</Teaser>
+    <Teaser>Expands the game to include the [COLOR_POSITIVE_TEXT]Enlightenment Era[ENDCOLOR].</Teaser>
     <Description>The [COLOR_POSITIVE_TEXT]Enlightenment Era[ENDCOLOR] was a period in which scientific thought advanced dramatically.
-[NEWLINE]Requires Vox Populi. Version 1.2.
+[NEWLINE]Requires Vox Populi.
 [NEWLINE][NEWLINE]Main authors: Pouakai, Janboruta, Sukritact - EE, zwei833 - RER. Vox Populi version created by Infixo.</Description>
     <Authors>Pouakai, JFD, Janboruta, Sukritact, zwei833, Infixo</Authors>
     <SpecialThanks>Xony, pandasnail, phantomaxl1207, barrizqi, Chrisy15, Enginseer, Padre19, Aldebaran1997, Gazebo</SpecialThanks>
@@ -46,7 +46,8 @@
         <MaxVersion>999</MaxVersion>
       </Association>
     </ModDependencies>
-    <ModReferences />
+    <ModReferences>
+    </ModReferences>
     <ModBlockers>
       <Association>
         <Type>Mod</Type>
@@ -155,12 +156,6 @@
     <ModContent>
       <Content>
         <Type>InGameUIAddin</Type>
-        <Name>JFD_FirstRate_Functions</Name>
-        <Description>Stuff for the First Rate</Description>
-        <FileName>Lua/JFD_FirstRate_Functions.lua</FileName>
-      </Content>
-      <Content>
-        <Type>InGameUIAddin</Type>
         <Name>EE_Functions</Name>
         <Description>EE_Functions</Description>
         <FileName>Lua/VPEE_Functions.lua</FileName>
@@ -194,6 +189,7 @@
     <Folder Include="Art\Unit Models\Explorer" />
     <Folder Include="Art\Unit Models\Field Gun" />
     <Folder Include="Art\Unit Models\Line Infantry" />
+    <Folder Include="Art\Unit Models\Corvette" />
     <Folder Include="Art\Unit Models\Pike" />
     <Folder Include="Art\Unit Models\Ship of the Line" />
     <Folder Include="Art\Unit Models\Skirmisher" />
@@ -208,6 +204,26 @@
     <Folder Include="Sounds\Quotes\Wonders" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Art\Atlases\Buildings\EnlightenmentVP_Buildings_128.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Art\Atlases\Buildings\EnlightenmentVP_Buildings_256.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Art\Atlases\Buildings\EnlightenmentVP_Buildings_45.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Art\Atlases\Buildings\EnlightenmentVP_Buildings_64.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Art\Atlases\Buildings\EnlightenmentVP_Buildings_80.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
     <Content Include="Art\Atlases\Buildings\Enlightenment_Buildings_128.dds">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
@@ -468,6 +484,30 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
+    <Content Include="Art\Unit Models\Corvette\GalleonCannons_diff.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Art\Unit Models\Corvette\GalleonCannons_sref.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Art\Unit Models\Corvette\GalleonHull_diff.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Art\Unit Models\Corvette\GalleonHull_sref.dds">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Art\Unit Models\Corvette\WarGalleon.fxsxml">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
+    <Content Include="Art\Unit Models\Corvette\WarGalleon.gr2">
+      <SubType>Lua</SubType>
+      <ImportIntoVFS>True</ImportIntoVFS>
+    </Content>
     <Content Include="Art\Unit Models\Explorer\conquistador_musketman.dds">
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
@@ -676,7 +716,7 @@
       <SubType>Lua</SubType>
       <ImportIntoVFS>True</ImportIntoVFS>
     </Content>
-    <Content Include="Lua\JFD_FirstRate_Functions.lua">
+    <Content Include="Changes.txt">
       <SubType>Lua</SubType>
       <ImportIntoVFS>False</ImportIntoVFS>
     </Content>

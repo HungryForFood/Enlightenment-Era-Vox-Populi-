@@ -1,171 +1,147 @@
 print("Loading VPEE_Functions.lua from VP-EE mod");
-
-function round(num, idp)
-  local mult = 10^(idp or 0)
-  return math.floor(num * mult + 0.5) / mult
-end
+--------------------------------------------
+-- Locals
+--------------------------------------------
+local iBuildingFasil = GameInfoTypes["BUILDING_EE_FASIL_GHEBBI"]
+local iPromotionFasil = GameInfoTypes["PROMOTION_EE_FASIL_GHEBBI"]
+local iRangeFasil = 3
+local bHasFasil = false
+local iPlayerFasil
+local iPlotXFasil -- City which built Fasil Ghebbi
+local iPlotYFasil -- City which built Fasil Ghebbi
+local iKronborg = GameInfoTypes["BUILDING_EE_KRONBORG"]
+local iKronborgDummy = GameInfoTypes["BUILDING_EE_KRONBORG_DUMMY"]
+local bHasKronborg = false
+local iPlayerKronborg
+local iPlotXKronborg -- City which built Kronborg
+local iPlotYKronborg -- City which built Kronborg
+local iBuildingVersailles = GameInfoTypes["BUILDING_EE_VERSAILLES"]
+print("Kronborg is", iKronborg, "Kronborg Dummy is", iKronborgDummy, "Versailles is ", iBuildingVersailles);
 
 --------------------------------------------
 -- Fasil Ghebbi
 -- Infixo: rewritten, not using PlotIterators, should be much faster
+-- HungryForFood: Use Lua hook UnitSetXY instead of PlayerDoTurn
 --------------------------------------------
 
-local buildingFasilID = GameInfoTypes.BUILDING_EE_FASIL_GHEBBI
-local unitPromotionFasilID = GameInfoTypes.PROMOTION_EE_FASIL_GHEBBI
-local fasilAuraRange = 3 --GameDefines.MAXIMUM_ACQUIRE_PLOT_DISTANCE
-
-function CBOEE_Fasil(playerID)
-	--print("CBOEE_Fasil() for player; aura range is", playerID, fasilAuraRange);
-	local player = Players[playerID]
-	if (player:IsAlive() and player:CountNumBuildings(buildingFasilID) == 1) then
-		--print("Player owns Fasil");
-		local plotFasil
-		for city in player:Cities() do
-			if city:IsHasBuilding(buildingFasilID) then
-				plotFasil = city:Plot()
-				--print("Fasil is in", city:GetName());
-			end
-		end
-		for unit in player:Units() do
-			if unit:IsCombatUnit() then
-				if (Map.PlotDistance(unit:GetX(), unit:GetY(), plotFasil:GetX(), plotFasil:GetY()) <= fasilAuraRange) then
+function CBOEE_Fasil(iPlayer, iUnit, iPlotX, iPlotY)
+	--print("CBOEE_Fasil() for player; aura range is", iPlayer, iRangeFasil);
+	if bHasFasil then
+		local pPlayer = Players[iPlayer]
+		if pPlayer and pPlayer:IsAlive() and iPlayer == iPlayerFasil then
+			--print("Player owns Fasil");
+			local pUnit = pPlayer:GetUnitByID(iUnit)
+			if pUnit and pUnit:IsCombatUnit() then
+				if (Map.PlotDistance(iPlotX, iPlotY, iPlotXFasil, iPlotYFasil) <= iRangeFasil) then
 					--print("Unit IN range of Fasil", unit:GetName());
-					unit:SetHasPromotion(unitPromotionFasilID, true);
+					pUnit:SetHasPromotion(iPromotionFasil, true);
 				else
 					--print("Unit OUT OF range of Fasil", unit:GetName());
-					unit:SetHasPromotion(unitPromotionFasilID, false);
+					pUnit:SetHasPromotion(iPromotionFasil, false);
 				end
 			end
 		end
 	end
 end
-GameEvents.PlayerDoTurn.Add(CBOEE_Fasil)
-
-local iKronborg = GameInfoTypes["BUILDING_EE_KRONBORG"]
-local iKronborgDummy = GameInfoTypes["BUILDING_EE_KRONBORG_DUMMY"]
-local HasKronborg = false
-local iKronborgOwner
-local iKronborgCity
-local iVersailles = GameInfoTypes["BUILDING_EE_VERSAILLES"]
-local HasVersailles = false 
-local iVersaillesOwner
-local iVersaillesCity
-local tWonderCity = {}
-print("Kronborg is", iKronborg, "Kronborg Dummy is", iKronborgDummy, "Versailles is ", iVersailles);
+GameEvents.UnitSetXY.Add(CBOEE_Fasil)
 
 --------------------------------------------
 -- Kronborg, Versailles: load game, check if they are built
 --------------------------------------------
 function OnLoadScreenClose()
-for i = 0, GameDefines.MAX_MAJOR_CIVS - 1, 1 do
-	local pPlayer = Players[i]
-	if pPlayer:IsEverAlive() then
-		for pCity in pPlayer:Cities() do
-			if pCity:IsHasBuilding(iKronborg) then
-				HasKronborg = true
-				iKronborgCity = pCity:GetID()
-				iKronborgOwner = i
-			end
-			if pCity:IsHasBuilding(iVersailles) then
-				HasVersailles = true
-				iVersaillesCity = pCity:GetID()
-				iVersaillesOwner = i
-				for pCity in pPlayer:Cities() do
-					tWonderCity[pCity:GetID()] = pCity:GetWeLoveTheKingDayCounter()
+	for i = 0, GameDefines.MAX_MAJOR_CIVS - 1, 1 do
+		local pPlayer = Players[i]
+		if pPlayer:IsEverAlive() then
+			for pCity in pPlayer:Cities() do
+				if pCity then
+					if pCity:IsHasBuilding(iKronborg) then
+						bHasKronborg = true
+						iPlotXKronborg = pCity:GetX()
+						iPlotYKronborg = pCity:GetY()
+						iPlayerKronborg = i
+					end
+					if pCity:IsHasBuilding(iBuildingFasil) then
+						bHasFasil = true
+						iPlotXFasil = pCity:GetX()
+						iPlotYFasil = pCity:GetY()
+						iPlayerFasil = i
+					end
 				end
 			end
+		
 		end
-	
 	end
-end
 end
 Events.LoadScreenClose.Add(OnLoadScreenClose)
 
 --------------------------------------------
--- Kronborg, Versailles: check if wonder was built
+-- Kronborg, Fasil: check if wonder was built
 --------------------------------------------
 function OnCityConstructed (iPlayer, iCity, iBuilding, bGold, bFaith) 
 	if iBuilding == iKronborg then
 		print("Kronborg constructed by player "..iPlayer.." in city "..iCity);
-		HasKronborg = true
-		iKronborgCity = iCity
-		iKronborgOwner = iPlayer
+		bHasKronborg = true
+		iPlayerKronborg = iPlayer
 		local pPlayer = Players[iPlayer]
-		for pCity in pPlayer:Cities() do
-			if pCity:IsCoastal(10) then
-				print("City "..pCity:GetName().." is coastal, so granting Kronborg Dummy...");
-				pCity:SetNumRealBuilding (iKronborgDummy, 1);
-				--if pCity:GetNumRealBuilding(iKronborgDummy) > 0 then print("...granted ok"); end
-			else
-				print("City "..pCity:GetName().." is NOT coastal");
+		if pPlayer then
+			pPlayer:GetCityByID(iCity)
+			if pCity then
+				iPlotXKronborg = pCity:GetX()
+				iPlotYKronborg = pCity:GetY()
+			end
+			for pCity in pPlayer:Cities() do
+				if pCity:IsCoastal(10) then
+					print("City "..pCity:GetName().." is coastal, so granting Kronborg Dummy...");
+					pCity:SetNumRealBuilding (iKronborgDummy, 1);
+					--if pCity:GetNumRealBuilding(iKronborgDummy) > 0 then print("...granted ok"); end
+				else
+					print("City "..pCity:GetName().." is NOT coastal");
+				end
 			end
 		end
-	end
-	if iBuilding == iVersailles then
-		print("Versailles constructed by player "..iPlayer.." in city "..iCity);
-		HasVersailles = true
-		iVersaillesCity = iCity
-		iVersaillesOwner = iPlayer
+	elseif iBuilding == iBuildingFasil then
+		print("Fasil Ghebbi constructed by player "..iPlayer.." in city "..iCity);
+		bHasFasil = true
+		iPlayerFasil = iPlayer
 		local pPlayer = Players[iPlayer]
-		for pCity in pPlayer:Cities() do
-			local WLTKDCounter = pCity:GetWeLoveTheKingDayCounter()
-			if WLTKDCounter > 0 then
-				print("WLTKD in city "..pCity:GetName().." for "..WLTKDCounter.." turns will be extended");
-				WLTKDCounter = WLTKDCounter + round(WLTKDCounter / 2, 0)
-				pCity:SetWeLoveTheKingDayCounter(WLTKDCounter)
-			else
-				print("No WLTKD in city "..pCity:GetName());
+		if pPlayer then
+			local pCity = pPlayer:GetCityByID(iCity)
+			if pCity then
+				iPlotXFasil = pCity:GetX()
+				iPlotYFasil = pCity:GetY()
 			end
-			tWonderCity[pCity:GetID()] = WLTKDCounter
 		end
 	end
 end
 GameEvents.CityConstructed.Add(OnCityConstructed)
 
 --------------------------------------------
--- Versailles: decrease WLTKD by 1 or extend by 50%
+-- Versailles: Extends WLTKD duration by 50%
 --------------------------------------------
-function EE_Versailles (iPlayer)
-	if HasVersailles then
-		if iPlayer == iVersaillesOwner then
-			local pPlayer = Players[iPlayer]
-			if (pPlayer:IsAlive() and pPlayer:CountNumBuildings(iVersailles) == 1) then			
-				if pPlayer:IsBarbarian() then return end
-				if pPlayer:IsMinorCiv() then return end
-				for pCity in pPlayer:Cities() do
-					local WLTKDCounter = pCity:GetWeLoveTheKingDayCounter()
-					local iCity = pCity:GetID()
-					if WLTKDCounter > 0 then 
-						if tWonderCity[iCity] < WLTKDCounter then -- no need to check equality (extends by 0?)
-							local CounterDiff = WLTKDCounter - tWonderCity[iCity]
-							WLTKDCounter = WLTKDCounter + round(CounterDiff / 2, 0)
-							pCity:SetWeLoveTheKingDayCounter(WLTKDCounter)
-							tWonderCity[iCity] = WLTKDCounter
-						else 
-							-- this causes the counter to go down twice: 1st by game, 2nd here
-							--WLTKDCounter = WLTKDCounter - 1
-							--pCity:SetWeLoveTheKingDayCounter(WLTKDCounter)
-							tWonderCity[iCity] = WLTKDCounter						
-						end
-					end
-				end
-			else
-				HasVersailles = false
+function EE_Versailles(iPlayer, iPlotX, iPlotY, iChange)
+	local pPlayer = Players[iPlayer]
+	if pPlayer:IsAlive() and pPlayer:CountNumBuildings(iBuildingVersailles) > 0 then
+		local pPlot = Map.GetPlot(iPlotX, iPlotY)
+		if pPlot then
+			local pCity = pPlot:GetPlotCity()
+			if pCity then
+				local iWLTKDTurns = pCity:GetWeLoveTheKingDayCounter() + (iChange * 50 / 100) -- the hook is called after the game has already increased the WLTKD turns in the city 
+				pCity:SetWeLoveTheKingDayCounter(iWLTKDTurns) -- DO NOT use pCity:ChangeWeLoveTheKingDayCounter as it will call the hook again, resulting in an infinite loop
 			end
 		end
 	end
 end
-GameEvents.PlayerDoTurn.Add(EE_Versailles)
+GameEvents.CityBeginsWLTKD.Add(EE_Versailles) -- city starts celebrating WLTKD
+GameEvents.CityExtendsWLTKD.Add(EE_Versailles) -- city already celebrating WLTKD, which then gets extended
 
 --------------------------------------------
--- Kronborg, Versailles: check if wonder conquered by another player
+-- Kronborg: check if wonder conquered by another player
 --------------------------------------------
 function OnCityCaptureComplete (iOldOwner, bIsCapital, iX, iY, iNewOwner, iPop, bConquest)
-	if HasKronborg then	
+	if bHasKronborg then	
 		local pPlot = Map.GetPlot(iX, iY)
 		local pConqCity = pPlot:GetPlotCity()
-		local iConqCity = pConqCity:GetID()
-		if iConqCity == iKronborgCity then
+		if iPlotXKronborg == iX and iPlotYKronborg == iY then
 			local pOldOwner = Players[iOldOwner]
 			for pCity in pOldOwner:Cities() do
 				if pCity:IsCoastal(10) then
@@ -173,66 +149,32 @@ function OnCityCaptureComplete (iOldOwner, bIsCapital, iX, iY, iNewOwner, iPop, 
 				end
 			end
 			local pNewOwner = Players[iNewOwner]
-			iKronborgOwner = iNewOwner
+			iPlayerKronborg = iNewOwner
 			for pCity in pNewOwner:Cities() do
 				if pCity:IsCoastal(10) then
 					pCity:SetNumRealBuilding (iKronborgDummy, 1)
 				end
 			end		
 		else
-			if iNewOwner == iKronborgOwner and pConqCity:IsCoastal(10) then
+			if iNewOwner == iPlayerKronborg and pConqCity:IsCoastal(10) then
 				pConqCity:SetNumRealBuilding (iKronborgDummy, 1)
 			end
 		end
 	end
-	if HasVersailles then 
-		local pPlot = Map.GetPlot(iX, iY)
-		local pConqCity = pPlot:GetPlotCity()
-		local iConqCity = pConqCity:GetID()
-		if iConqCity == iVersaillesCity then
-			iVersaillesOwner = iNewOwner
-			local pNewOwner = Players[iNewOwner]
-			tWonderCity = {}
-			for pCity in pNewOwner:Cities() do
-				local WLTKDCounter = pCity:GetWeLoveTheKingDayCounter()
-				if WLTKDCounter > 0 then
-					WLTKDCounter = WLTKDCounter + round(WLTKDCounter / 2, 0)
-					pCity:SetWeLoveTheKingDayCounter(WLTKDCounter)
-				end
-				tWonderCity[pCity:GetID()] = WLTKDCounter			
-			end
-		else 
-			if iNewOwner == iVersaillesOwner then			
-				local WLTKDCounter = pConqCity:GetWeLoveTheKingDayCounter()
-				if WLTKDCounter > 0 then
-					WLTKDCounter = WLTKDCounter + round(WLTKDCounter / 2, 0)
-					pConqCity:SetWeLoveTheKingDayCounter(WLTKDCounter)
-				end
-				tWonderCity[iConqCity] = WLTKDCounter
-			end
-		end
-	end
 end
-GameEvents.CityCaptureComplete.Add(OnCityCaptureComplete)
+GameEvents.CityCaptureComplete.Add(OnCityCaptureComplete) -- note that city ID changes when a city changes owners
 
 --------------------------------------------
--- Kronborg, Versailles: check if new city has effects
+-- Kronborg: check if new city has effects
 --------------------------------------------
 function OnPlayerCityFounded (iPlayer, iX, iY)
-	if HasKronborg then
-		if iPlayer == iKronborgOwner then
+	if bHasKronborg then
+		if iPlayer == iPlayerKronborg then
 			local pPlot = Map.GetPlot(iX, iY)
 			local pCity = pPlot:GetPlotCity()
 			if pCity:IsCoastal(10) then
 				pCity:SetNumRealBuilding (iKronborgDummy, 1)
 			end
-		end
-	end
-	if HasVersailles then 
-		if iPlayer == iVersaillesOwner then
-			local pPlot = Map.GetPlot(iX, iY)
-			local pCity = pPlot:GetPlotCity()
-			tWonderCity[pCity:GetID()] = pCity:GetWeLoveTheKingDayCounter()
 		end
 	end
 end

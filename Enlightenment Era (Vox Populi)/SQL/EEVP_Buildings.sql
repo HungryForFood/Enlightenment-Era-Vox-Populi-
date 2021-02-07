@@ -15,8 +15,8 @@ INSERT INTO Buildings (Type, PrereqTech, ArtDefineTag, PortraitIndex, IconAtlas)
 ('BUILDING_EE_DRYDOCK',    'TECH_EE_WARSHIPS',     'HARBOR', 6,'ENLIGHTENMENT_BUILDING_ATLAS'),
 ('BUILDING_EE_GALLERY',    'TECH_ARCHITECTURE',    'MUSEUM',22,'BW_ATLAS_1'),
 ('BUILDING_EE_GUNSMITH',   'TECH_EE_FLINTLOCK',    'FORGE',  0,'ENLIGHTENMENT_BUILDING_ATLAS'),
-('BUILDING_EE_MANOR',      'TECH_EE_SOVEREIGNTY',  'FORGE',  1,'EXPANSION_SCEN_BUILDING_ATLAS'),
-('BUILDING_EE_MENAGERIE',  'TECH_EE_ROMANTICISM',  'THEATRE',0,'EXPANSION2_BUILDING_ATLAS2'),
+('BUILDING_EE_MANOR',      'TECH_EE_SOVEREIGNTY',  'FORGE',  0,'ENLIGHTENMENT_VP_BUILDING_ATLAS'),
+('BUILDING_EE_MENAGERIE',  'TECH_EE_ROMANTICISM',  'THEATRE',1,'ENLIGHTENMENT_VP_BUILDING_ATLAS'),
 ('BUILDING_EE_SALON',      'TECH_EE_HUMANISM',     'FORGE',  2,'ENLIGHTENMENT_BUILDING_ATLAS'),
 ('BUILDING_EE_TAVERN',     'TECH_MACHINERY',       'FORGE',  7,'ENLIGHTENMENT_BUILDING_ATLAS'),
 ('BUILDING_EE_WEIGH_HOUSE','TECH_EE_MANUFACTURING','FORGE', 27,'BW_ATLAS_1');
@@ -268,13 +268,6 @@ UPDATE Buildings  -- VP: Arsenal, Metallurgy
 SET BuildingClass = 'BUILDINGCLASS_EE_BASTION', PrereqTech = 'TECH_EE_FLINTLOCK', Defense = 1000, ExtraCityHitPoints = 100, CityIndirectFire = 0, BlockScienceTheft = 0
 WHERE Type = 'BUILDING_KREPOST'; 
 
--- Infixo: in VP2/27 Ostrog doesn't have any prereq buildings, don't know yet if it's a bug or not; delete/insert will work in both cases
-/*
-DELETE FROM Building_ClassesNeededInCity WHERE BuildingType = 'BUILDING_KREPOST';
-INSERT INTO Building_ClassesNeededInCity (BuildingType, BuildingClassType)
-VALUES ('BUILDING_KREPOST', 'BUILDINGCLASS_CASTLE');
-*/
-
 ----------------------------------------------
 -- Tavern
 ----------------------------------------------
@@ -293,12 +286,9 @@ INSERT INTO Building_ResourceYieldChanges (BuildingType, ResourceType, YieldType
 ----------------------------------------------
 
 UPDATE Buildings
-SET CitySupplyFlat = 2
+SET CitySupplyFlat = 1
 WHERE Type = 'BUILDING_EE_GUNSMITH';
 
-
-
---DELETE FROM Building_UnitCombatProductionModifiers WHERE BuildingType = 'BUILDING_EE_GUNSMITH';
 INSERT INTO Building_UnitCombatProductionModifiers (BuildingType, UnitCombatType, Modifier) VALUES 
 ('BUILDING_EE_GUNSMITH', 'UNITCOMBAT_ARMOR', 25),
 ('BUILDING_EE_GUNSMITH', 'UNITCOMBAT_GUN', 25),
