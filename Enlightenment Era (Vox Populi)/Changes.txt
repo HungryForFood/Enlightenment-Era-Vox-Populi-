@@ -30,3 +30,17 @@ Policies
 - Fixed Galleries gaining +2 Golden Age Points rather than +3 with Freedom's Creative Expressions.
 - Policy values should now change automatically when VP changes (changing types of bonuses still require manual updating).
 - Tooltips should now pick up simple changes from VP (big changes still require manual updating).
+
+--------------------------------------------------------------
+v3
+--------------------------------------------------------------
+Units
+- Field Cannon no longer has the Naval Misfire promotion. The Field Cannon will now follow the given promotions for the Howitzer if a future VP version changes it.
+- Cost and Faith cost reduced for the following:
+- Carrack 250/370 (was 350/450).
+- Nau 250/370 (was 350/450).
+- Sea Beggar 250/370 (was 450/450).
+- Galleon 310/410 (was 375/450).
+
+Misc
+- Fixed missing string error (due to VP update to espionage causing conflict).

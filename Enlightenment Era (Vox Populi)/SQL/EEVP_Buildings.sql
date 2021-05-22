@@ -265,7 +265,7 @@ SET BuildingClassType = 'BUILDINGCLASS_EE_BASTION'
 WHERE BuildingType = 'BUILDING_KREPOST';
 
 UPDATE Buildings  -- VP: Arsenal, Metallurgy
-SET BuildingClass = 'BUILDINGCLASS_EE_BASTION', PrereqTech = 'TECH_EE_FLINTLOCK', Defense = 1000, ExtraCityHitPoints = 100, CityIndirectFire = 0, BlockScienceTheft = 0
+SET BuildingClass = 'BUILDINGCLASS_EE_BASTION', PrereqTech = 'TECH_EE_FLINTLOCK', Defense = 1000, ExtraCityHitPoints = 100, CityIndirectFire = 0
 WHERE Type = 'BUILDING_KREPOST'; 
 
 ----------------------------------------------

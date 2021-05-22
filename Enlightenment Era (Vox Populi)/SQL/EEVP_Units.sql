@@ -391,16 +391,7 @@ WHERE Type = 'UNIT_CANNON';
 --INSERT INTO Unit_ClassUpgrades (UnitType, UnitClassType)
 --VALUES ('UNIT_EE_FIELD_GUN', 'UNITCLASS_FIELD_GUN');
 
-INSERT INTO Unit_FreePromotions (UnitType, PromotionType) VALUES
-('UNIT_EE_FIELD_GUN', 'PROMOTION_CITY_SIEGE'),
-('UNIT_EE_FIELD_GUN', 'PROMOTION_COVER_1'),
-('UNIT_EE_FIELD_GUN', 'PROMOTION_INDIRECT_FIRE'),
-('UNIT_EE_FIELD_GUN', 'PROMOTION_MUST_SET_UP'),
-('UNIT_EE_FIELD_GUN', 'PROMOTION_NAVAL_MISFIRE'),
-('UNIT_EE_FIELD_GUN', 'PROMOTION_NO_DEFENSIVE_BONUSES'),
-('UNIT_EE_FIELD_GUN', 'PROMOTION_ONLY_DEFENSIVE'),
-('UNIT_EE_FIELD_GUN', 'PROMOTION_SIEGE_INACCURACY'),
-('UNIT_EE_FIELD_GUN', 'PROMOTION_SIGHT_PENALTY');
+INSERT INTO Unit_FreePromotions (UnitType, PromotionType) SELECT 'UNIT_EE_FIELD_GUN', PromotionType FROM Unit_FreePromotions WHERE UnitType = 'UNIT_FIELD_GUN';
 
 -------------------------------------------------------
 -- Carrack
@@ -552,10 +543,10 @@ VALUES ('BELIEF_HEATHEN_CONVERSION', 'ERA_ENLIGHTENMENT');
 -- Renaissance
 UPDATE Units SET Cost = 300, FaithCost = 400 WHERE Type = 'UNIT_EE_ADVENTURER';
 UPDATE Units SET Cost = 300, FaithCost = 400 WHERE Type = 'UNIT_2HANDER';
-UPDATE Units SET Cost = 350, FaithCost = 450 WHERE Type = 'UNIT_EE_CARRACK'; -- Renaissance, takes place of PRIVATEER
-UPDATE Units SET Cost = 350, FaithCost = 450 WHERE Type = 'UNIT_PORTUGUESE_NAU'; -- replaces EE_CARRACK (originally PRIVATEER)
-UPDATE Units SET Cost = 450, FaithCost = 450 WHERE Type = 'UNIT_DUTCH_SEA_BEGGAR'; -- replaces EE_CARRACK (originally PRIVATEER)
-UPDATE Units SET Cost = 375, FaithCost = 450 WHERE Type = 'UNIT_EE_GALLEON'; -- Renaissance, takes place of FRIGATE
+UPDATE Units SET Cost = 250, FaithCost = 370 WHERE Type = 'UNIT_EE_CARRACK'; -- Renaissance, takes place of PRIVATEER
+UPDATE Units SET Cost = 250, FaithCost = 370 WHERE Type = 'UNIT_PORTUGUESE_NAU'; -- replaces EE_CARRACK (originally PRIVATEER)
+UPDATE Units SET Cost = 250, FaithCost = 370 WHERE Type = 'UNIT_DUTCH_SEA_BEGGAR'; -- replaces EE_CARRACK (originally PRIVATEER)
+UPDATE Units SET Cost = 310, FaithCost = 410 WHERE Type = 'UNIT_EE_GALLEON'; -- Renaissance, takes place of FRIGATE
 -- UPDATE Units SET Cost = 350, FaithCost = 400 WHERE Type = 'UNIT_SPANISH_CONQUISTADOR'; -- replaces LANCER (originally KNIGHT)
 -- Enlightenment
 UPDATE Units SET Cost = 400, FaithCost = 500 WHERE Type = 'UNIT_EE_LINE_INFANTRY';
