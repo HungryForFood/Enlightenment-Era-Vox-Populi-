@@ -252,9 +252,10 @@ UPDATE Buildings SET Defense = 1500, ExtraCityHitPoints = 125, CitySupplyModifie
 UPDATE Buildings SET Defense = 2000, ExtraCityHitPoints = 150, CitySupplyModifier = 20 WHERE Type = 'BUILDING_MILITARY_BASE';
 
 -- add EE_BASTION to Defender of Faith Belief
-INSERT INTO Belief_BuildingClassYieldChanges (BeliefType, BuildingClassType, YieldType, YieldChange) VALUES
-('BELIEF_DEFENDER_FAITH', 'BUILDINGCLASS_EE_BASTION', 'YIELD_FAITH', 1),
-('BELIEF_DEFENDER_FAITH', 'BUILDINGCLASS_EE_BASTION', 'YIELD_CULTURE', 2);
+INSERT INTO Belief_BuildingClassYieldChanges
+		(BeliefType, BuildingClassType, YieldType, YieldChange)
+SELECT DISTINCT BeliefType, 'BUILDINGCLASS_EE_BASTION', YieldType, YieldChange
+FROM Belief_BuildingClassYieldChanges WHERE BeliefType = 'BELIEF_DEFENDER_FAITH';
 	
 ----------------------------------------------
 -- Ostrog (KREPOST) must replace Bastion as the latter comes before Arsenal
@@ -271,7 +272,8 @@ WHERE Type = 'BUILDING_KREPOST';
 ----------------------------------------------
 -- Tavern
 ----------------------------------------------
-
+INSERT INTO Building_YieldChanges (BuildingType, YieldType, Yield) VALUES
+('BUILDING_EE_TAVERN', 'YIELD_FOOD', 2);
 
 
 INSERT INTO Building_ResourceYieldChanges (BuildingType, ResourceType, YieldType, Yield) VALUES
@@ -303,11 +305,10 @@ INSERT INTO Building_UnitCombatFreeExperiences (BuildingType, UnitCombatType, Ex
 -- Japan's UA
 ----------------------------------------------
 
-INSERT INTO Trait_BuildingClassYieldChanges (TraitType, BuildingClassType, YieldType, YieldChange ) VALUES
-('TRAIT_FIGHT_WELL_DAMAGED', 'BUILDINGCLASS_EE_BASTION',  'YIELD_FAITH',   1),
-('TRAIT_FIGHT_WELL_DAMAGED', 'BUILDINGCLASS_EE_BASTION',  'YIELD_CULTURE', 1),
-('TRAIT_FIGHT_WELL_DAMAGED', 'BUILDINGCLASS_EE_GUNSMITH', 'YIELD_FAITH',   1),
-('TRAIT_FIGHT_WELL_DAMAGED', 'BUILDINGCLASS_EE_GUNSMITH', 'YIELD_CULTURE', 1);
+INSERT INTO Trait_BuildingClassYieldChanges
+		(TraitType, BuildingClassType, YieldType, YieldChange)
+SELECT DISTINCT bcyc.TraitType, bc.Type, bcyc.YieldType, bcyc.YieldChange
+FROM BuildingClasses bc, Trait_BuildingClassYieldChanges bcyc WHERE bc.Type IN('BUILDINGCLASS_EE_BASTION', 'BUILDINGCLASS_EE_GUNSMITH') AND bcyc.TraitType = 'TRAIT_FIGHT_WELL_DAMAGED';
 
 ----------------------------------------------
 -- Manor
@@ -358,7 +359,8 @@ VALUES
 	('BUILDING_EE_ACADEMY', 'YIELD_SCIENCE', 1),
 	('BUILDING_EE_SALON', 'YIELD_CULTURE', 1),
 	('BUILDING_EE_MENAGERIE', 'YIELD_CULTURE', 1),
-	('BUILDING_EE_MANOR', 'YIELD_PRODUCTION', 1);
+	('BUILDING_EE_MANOR', 'YIELD_PRODUCTION', 1),
+	('BUILDING_EE_TAVERN', 'YIELD_CULTURE', 1);
 ----------------------------------------------------
 -- Text (en_US)
 ----------------------------------------------------
@@ -411,7 +413,7 @@ INSERT INTO Language_en_US (Tag, Text) VALUES
 ('TXT_KEY_BUILDING_EE_SALON_STRATEGY', 'The Salon is an Enlightenment-era building which increases the [ICON_CULTURE] Culture output of a city. It may not be built in a city with an Academy, forcing cities to specialise in either Culture or Science.'),
 -- Tavern
 ('TXT_KEY_BUILDING_EE_TAVERN', 'Tavern'),
-('TXT_KEY_BUILDING_EE_TAVERN_HELP', 'Nearby [ICON_RES_WHEAT] Wheat, [ICON_RES_DEER] Deer, [ICON_RES_FISH] Fish , [ICON_RES_WINE] Wine and [ICON_RES_BISON] Bison: +1 [ICON_FOOD] Food.'),
+('TXT_KEY_BUILDING_EE_TAVERN_HELP', '+2 [ICON_FOOD] Food in the City and -1 [ICON_HAPPINESS_3] Unhappiness from [ICON_CULTURE] Boredom. Nearby [ICON_RES_WHEAT] Wheat, [ICON_RES_DEER] Deer, [ICON_RES_FISH] Fish , [ICON_RES_WINE] Wine and [ICON_RES_BISON] Bison: +1 [ICON_FOOD] Food.'),
 ('TXT_KEY_BUILDING_EE_TAVERN_STRATEGY', 'The Tavern increases the [ICON_FOOD] Food output of the city.'),
 ('TXT_KEY_BUILDING_EE_TAVERN_PEDIA', 'Establishments for the dispensation and consumption of alcoholic beverages have been a fixture of cities throughout human civilization. The Babylonian Code of Hammurabi suggests the death penalty for proprietors diluting beer, while the ancient Greek lesche and phatnai catered to the needs of foreign traders and envoys. The traditional English tavern has its roots in the Roman period and, although still considered a place of ill-repute, the taberna was understood as a higher class establishment than the similar caupona which served slaves and the lower classes. Tabernae eventually evolved into alehouses run by women and finally the medieval English inn; sanctuaries for wayfaring strangers, thieves, and political malcontents. By the middle of the 16th century the dining-out habit was well established among townsmen of all classes, and the tavern originated the custom of providing a daily meal at a fixed time. As taverns gradually became more socially acceptable, some of the better houses became regular meeting halls and unofficial clubhouses providing companionship to the masses.'),
 -- Weigh House
@@ -463,13 +465,13 @@ SET UnlockedByBelief = '1'
 WHERE BuildingClass = 'BUILDINGCLASS_EE_GALLERY';
 
 INSERT INTO Belief_BuildingClassYieldChanges
-(BeliefType, BuildingClassType, YieldType, YieldChange)
-VALUES
-('BELIEF_UNDERGROUND_SECT', 'BUILDINGCLASS_EE_GALLERY', 'YIELD_CULTURE', 2);
+		(BeliefType, BuildingClassType, YieldType, YieldChange)
+SELECT DISTINCT BeliefType, 'BUILDINGCLASS_EE_GALLERY', YieldType, YieldChange
+FROM Belief_BuildingClassYieldChanges WHERE BeliefType = 'BELIEF_UNDERGROUND_SECT';
 
 INSERT INTO Belief_BuildingClassFaithPurchase
-(BeliefType, BuildingClassType)
-VALUES
-('BELIEF_UNDERGROUND_SECT', 'BUILDINGCLASS_EE_GALLERY');
+		(BeliefType, BuildingClassType)
+SELECT DISTINCT BeliefType, 'BUILDINGCLASS_EE_GALLERY'
+FROM Belief_BuildingClassFaithPurchase WHERE BeliefType = 'BELIEF_UNDERGROUND_SECT';
 
 UPDATE Buildings SET FaithCost = 200 WHERE Type = 'BUILDING_EE_GALLERY';

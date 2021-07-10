@@ -5,7 +5,7 @@
     <ProjectGuid>{246b7052-befb-43a2-a277-9e4e764db980}</ProjectGuid>
     <Name>Enlightenment Era (Vox Populi)</Name>
     <Guid>87b2deae-83cb-9b88-9017-79e741d3739c</Guid>
-    <ModVersion>3</ModVersion>
+    <ModVersion>4</ModVersion>
     <Stability>Stable</Stability>
     <Teaser>Expands the game to include the [COLOR_POSITIVE_TEXT]Enlightenment Era[ENDCOLOR].</Teaser>
     <Description>The [COLOR_POSITIVE_TEXT]Enlightenment Era[ENDCOLOR] was a period in which scientific thought advanced dramatically.

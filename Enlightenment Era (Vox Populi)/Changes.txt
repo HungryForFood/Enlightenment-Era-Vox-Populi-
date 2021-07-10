@@ -44,3 +44,21 @@ Units
 
 Misc
 - Fixed missing string error (due to VP update to espionage causing conflict).
+
+--------------------------------------------------------------
+v4
+--------------------------------------------------------------
+Units
+- Adventurers now upgrade to Commandos (VP 7-1).
+- Removed Adventurer and Scouting I promotions from Adventurer (to be more consistent with the rest of the line).
+- Minuteman combat strength increased to 32 from 30.
+- Minuteman now starts with Formation, like the Line Infantry.
+- Removed Accuracy I from Minuteman.
+- Sea Beggar now obsoletes at Rocketry correctly.
+- Fixed Sea Beggar costs being changed by this mod.
+
+Buildings
+- Taverns now have +2 Food and -1 unhappiness from Boredom.
+
+Misc
+- Background SQL changes, so the mod will more likely reflect changes in VP.

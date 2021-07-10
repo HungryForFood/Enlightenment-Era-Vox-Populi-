@@ -9,15 +9,15 @@
 -- UNIT_EE_SKIRMISHER is Light Infantry
 ----------------------------------------------------
 
-INSERT INTO Units (Type, PrereqTech, Combat, Moves, RequiresFaithPurchaseEnabled, ObsoleteTech, CombatClass, Domain, DefaultUnitAI, AdvancedStartCost, UnitFlagIconOffset, PortraitIndex, GoodyHutUpgradeUnitClass) VALUES
-('UNIT_EE_ADVENTURER',    'TECH_EE_EXPLORATION',  23, 3, 1,'TECH_STEAM_POWER',    'UNITCOMBAT_RECON',       'DOMAIN_LAND','UNITAI_EXPLORE',     10, 6, 6,'UNITCLASS_ZEPPELIN'), -- UNIT_EE_EXPLORER in original EE
-('UNIT_EE_FIELD_GUN',     'TECH_EE_FLINTLOCK',    21, 2, 1,'TECH_RIFLING',        'UNITCOMBAT_SIEGE',       'DOMAIN_LAND','UNITAI_CITY_BOMBARD',30, 4, 4,'UNITCLASS_FIELD_GUN'),
-('UNIT_EE_LINE_INFANTRY', 'TECH_EE_FLINTLOCK',    30, 2, 1,'TECH_RIFLING',        'UNITCOMBAT_GUN',         'DOMAIN_LAND','UNITAI_DEFENSE',     30, 1, 1,'UNITCLASS_RIFLEMAN'),
-('UNIT_EE_SKIRMISHER',    'TECH_EE_FORTIFICATION',25, 2, 1,'TECH_DYNAMITE',       'UNITCOMBAT_ARCHER',      'DOMAIN_LAND','UNITAI_RANGED',      30, 2, 2,'UNITCLASS_GATLINGGUN'),
-('UNIT_EE_UHLAN',         'TECH_RIFLING',         45, 4, 1,'TECH_COMBUSTION',     'UNITCOMBAT_MOUNTED',     'DOMAIN_LAND','UNITAI_FAST_ATTACK', 30, 3, 3,'UNITCLASS_WWI_TANK'),
-('UNIT_EE_CARRACK',       'TECH_ASTRONOMY',       32, 5, 0,'TECH_NAVIGATION',     'UNITCOMBAT_NAVALMELEE',  'DOMAIN_SEA', 'UNITAI_ATTACK_SEA',  50, 9,19,'UNITCLASS_PRIVATEER'),
-('UNIT_EE_GALLEON',       'TECH_EE_EXPLORATION',  20, 4, 0,'TECH_EE_WARSHIPS',    'UNITCOMBAT_NAVALRANGED', 'DOMAIN_SEA', 'UNITAI_ASSAULT_SEA', 50, 5, 5,'UNITCLASS_FRIGATE'),
-('UNIT_EE_SHIP_OF_THE_LINE','TECH_EE_WARSHIPS',   45, 5, 0,'TECH_INDUSTRIALIZATION','UNITCOMBAT_NAVALMELEE','DOMAIN_SEA', 'UNITAI_ASSAULT_SEA', 50, 8, 9,'UNITCLASS_IRONCLAD');
+INSERT INTO Units (Type, PrereqTech, Combat, Moves, RequiresFaithPurchaseEnabled, CombatClass, Domain, DefaultUnitAI, AdvancedStartCost, UnitFlagIconOffset, PortraitIndex, GoodyHutUpgradeUnitClass) VALUES
+('UNIT_EE_ADVENTURER',    'TECH_EE_EXPLORATION',  23, 3, 1, 'UNITCOMBAT_RECON',       'DOMAIN_LAND','UNITAI_EXPLORE',     10, 6, 6,'UNITCLASS_COMMANDO'), -- UNIT_EE_EXPLORER in original EE
+('UNIT_EE_FIELD_GUN',     'TECH_EE_FLINTLOCK',    21, 2, 1, 'UNITCOMBAT_SIEGE',       'DOMAIN_LAND','UNITAI_CITY_BOMBARD',30, 4, 4,'UNITCLASS_FIELD_GUN'),
+('UNIT_EE_LINE_INFANTRY', 'TECH_EE_FLINTLOCK',    30, 2, 1, 'UNITCOMBAT_GUN',         'DOMAIN_LAND','UNITAI_DEFENSE',     30, 1, 1,'UNITCLASS_RIFLEMAN'),
+('UNIT_EE_SKIRMISHER',    'TECH_EE_FORTIFICATION',25, 2, 1, 'UNITCOMBAT_ARCHER',      'DOMAIN_LAND','UNITAI_RANGED',      30, 2, 2,'UNITCLASS_GATLINGGUN'),
+('UNIT_EE_UHLAN',         'TECH_RIFLING',         45, 4, 1, 'UNITCOMBAT_MOUNTED',     'DOMAIN_LAND','UNITAI_FAST_ATTACK', 30, 3, 3,'UNITCLASS_WWI_TANK'),
+('UNIT_EE_CARRACK',       'TECH_ASTRONOMY',       32, 5, 0, 'UNITCOMBAT_NAVALMELEE',  'DOMAIN_SEA', 'UNITAI_ATTACK_SEA',  50, 9,19,'UNITCLASS_PRIVATEER'),
+('UNIT_EE_GALLEON',       'TECH_EE_EXPLORATION',  20, 4, 0, 'UNITCOMBAT_NAVALRANGED', 'DOMAIN_SEA', 'UNITAI_ASSAULT_SEA', 50, 5, 5,'UNITCLASS_FRIGATE'),
+('UNIT_EE_SHIP_OF_THE_LINE','TECH_EE_WARSHIPS',   45, 5, 0, 'UNITCOMBAT_NAVALMELEE',  'DOMAIN_SEA', 'UNITAI_ASSAULT_SEA', 50, 8, 9,'UNITCLASS_IRONCLAD');
 
 UPDATE Units
 SET Class = 'UNITCLASS_'||SUBSTR(Type,6), Description = 'TXT_KEY_'||Type,
@@ -79,8 +79,8 @@ WHERE Type IN (
 'UNIT_EE_SHIP_OF_THE_LINE');
 
 -- Version 1.2 updates for existing units related to additonal era (courtesy of adan_eslavo)
-UPDATE Units Set ObsoleteTech = 'TECH_BALLISTICS' WHERE Type = 'UNIT_AUSTRIAN_HUSSAR';
-UPDATE Units Set ObsoleteTech = 'TECH_BALLISTICS' WHERE Type = 'UNIT_INDIAN_WARELEPHANT';
+--UPDATE Units Set ObsoleteTech = 'TECH_BALLISTICS' WHERE Type = 'UNIT_AUSTRIAN_HUSSAR';
+--UPDATE Units Set ObsoleteTech = 'TECH_BALLISTICS' WHERE Type = 'UNIT_INDIAN_WARELEPHANT';
 UPDATE Units Set GoodyHutUpgradeUnitClass = 'UNITCLASS_2HANDER' WHERE Type = 'UNIT_DANISH_BERSERKER';
 UPDATE Units Set ObsoleteTech = 'TECH_EE_FLINTLOCK' WHERE Type = 'UNIT_DANISH_BERSERKER';
 UPDATE Units Set GoodyHutUpgradeUnitClass = 'UNITCLASS_2HANDER' WHERE Type = 'UNIT_JAPANESE_SAMURAI';
@@ -132,27 +132,16 @@ UPDATE ArtDefine_UnitMemberInfos SET Scale = 0.11, Model = 'WarGalleon.fxsxml' W
 -------------------------------------------------------
 
 UPDATE Units
-SET BaseSightRange = 3, NoBadGoodies = 1, ObsoleteTech = 'TECH_STEAM_POWER'
+SET BaseSightRange = 3, NoBadGoodies = 1, ObsoleteTech = (SELECT PrereqTech FROM Units WHERE Type = 'UNIT_COMMANDO')
 WHERE Type = 'UNIT_EE_ADVENTURER';
-
-UPDATE Units
-SET ObsoleteTech = 'TECH_COMPASS'
-WHERE Type = 'UNIT_SCOUT';
 
 UPDATE Units
 SET ObsoleteTech = 'TECH_EE_EXPLORATION', GoodyHutUpgradeUnitClass = 'UNITCLASS_EE_ADVENTURER' 
 WHERE Type = 'UNIT_EXPLORER';
 
-INSERT INTO Unit_FreePromotions (UnitType, PromotionType) VALUES
-('UNIT_EE_ADVENTURER', 'PROMOTION_BARBARIAN_BONUS'),
-('UNIT_EE_ADVENTURER', 'PROMOTION_DEFENSIVE_EMBARKATION'),
-('UNIT_EE_ADVENTURER', 'PROMOTION_EE_ADVENTURER'),
-('UNIT_EE_ADVENTURER', 'PROMOTION_EMBARKED_SIGHT'),
-('UNIT_EE_ADVENTURER', 'PROMOTION_IGNORE_TERRAIN_COST'),
-('UNIT_EE_ADVENTURER', 'PROMOTION_OCEAN_CROSSING'),
-('UNIT_EE_ADVENTURER', 'PROMOTION_RECON_EXPERIENCE'),
-('UNIT_EE_ADVENTURER', 'PROMOTION_SCOUT_GOODY_BONUS'),
-('UNIT_EE_ADVENTURER', 'PROMOTION_SCOUTING_1');
+INSERT INTO Unit_FreePromotions (UnitType, PromotionType) SELECT
+'UNIT_EE_ADVENTURER', PromotionType
+FROM Unit_FreePromotions WHERE UnitType = 'UNIT_EXPLORER';
 
 -- Explorer -> Adventurer
 UPDATE Unit_ClassUpgrades
@@ -173,7 +162,7 @@ SET ObsoleteTech = 'TECH_EE_FLINTLOCK', GoodyHutUpgradeUnitClass = 'UNITCLASS_EE
 WHERE Type = 'UNIT_SPANISH_TERCIO';
 
 UPDATE Units
-SET ObsoleteTech = 'TECH_RIFLING', GoodyHutUpgradeUnitClass = 'UNITCLASS_EE_LINE_INFANTRY' 
+SET ObsoleteTech = (SELECT PrereqTech FROM Units WHERE Type = 'UNIT_RIFLEMAN'), GoodyHutUpgradeUnitClass = 'UNITCLASS_EE_LINE_INFANTRY' 
 WHERE Type IN ('UNIT_FRENCH_MUSKETEER', 'UNIT_ZULU_IMPI');
 
 UPDATE Units
@@ -193,7 +182,7 @@ WHERE UnitType IN (SELECT Type FROM Units WHERE Class = 'UNITCLASS_TERCIO' AND T
 UPDATE Civilization_UnitClassOverrides SET UnitClassType = 'UNITCLASS_EE_LINE_INFANTRY' WHERE  UnitType = 'UNIT_SWEDISH_CAROLEAN';
 
 UPDATE Units
-SET Combat = 34, Class = 'UNITCLASS_EE_LINE_INFANTRY', PrereqTech = 'TECH_EE_FLINTLOCK', ObsoleteTech = 'TECH_REPLACEABLE_PARTS', GoodyHutUpgradeUnitClass = 'UNITCLASS_RIFLEMAN'
+SET Combat = 34, Class = 'UNITCLASS_EE_LINE_INFANTRY', PrereqTech = 'TECH_EE_FLINTLOCK', ObsoleteTech = (SELECT ObsoleteTech FROM Units WHERE Type = 'UNIT_RIFLEMAN'), GoodyHutUpgradeUnitClass = 'UNITCLASS_RIFLEMAN'
 WHERE Type = 'UNIT_SWEDISH_CAROLEAN';
 
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_RIFLEMAN' WHERE UnitType = 'UNIT_SWEDISH_CAROLEAN';
@@ -213,7 +202,7 @@ UPDATE Civilization_UnitClassOverrides Set UnitClassType = 'UNITCLASS_EE_UHLAN' 
 UPDATE Units
 SET Class = 'UNITCLASS_EE_UHLAN', CombatClass = 'UNITCOMBAT_MOUNTED', GoodyHutUpgradeUnitClass = 'UNITCLASS_WWI_TANK',
 	Range = 0, RangedCombat = 0, Combat = 50, DefaultUnitAI = 'UNITAI_FAST_ATTACK',
-	PrereqTech = 'TECH_RIFLING', ObsoleteTech = 'TECH_COMBINED_ARMS'
+	PrereqTech = 'TECH_RIFLING', ObsoleteTech = (SELECT ObsoleteTech FROM Units WHERE Type = 'UNIT_WWI_TANK')
 WHERE Type = 'UNIT_RUSSIAN_COSSACK';
 
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_WWI_TANK' WHERE UnitType = 'UNIT_RUSSIAN_COSSACK';
@@ -237,7 +226,7 @@ INSERT INTO Unit_AITypes (UnitType, UnitAIType) VALUES
 -------------------------------------------------------
 
 UPDATE Units
-SET IgnoreBuildingDefense = 1, MoveRate = 'QUADRUPED', BaseLandAirDefense = 2
+SET IgnoreBuildingDefense = 1, MoveRate = 'QUADRUPED', BaseLandAirDefense = 2, ObsoleteTech = (SELECT PrereqTech FROM Units WHERE Type = 'UNIT_WWI_TANK')
 WHERE Type = 'UNIT_EE_UHLAN';
 
 -- Lancer -> Uhlan
@@ -245,8 +234,10 @@ UPDATE Unit_ClassUpgrades
 SET UnitClassType = 'UNITCLASS_EE_UHLAN'
 WHERE UnitType IN (SELECT Type FROM Units WHERE Class = 'UNITCLASS_LANCER');
 
-INSERT INTO Unit_ResourceQuantityRequirements (UnitType, ResourceType)
-VALUES ('UNIT_EE_UHLAN', 'RESOURCE_HORSE');
+INSERT INTO Unit_ResourceQuantityRequirements
+		(UnitType, ResourceType, Cost)
+SELECT 'UNIT_EE_UHLAN', ResourceType, Cost
+FROM Unit_ResourceQuantityRequirements WHERE UnitType = 'UNIT_LANCER';
 
 UPDATE Units SET ObsoleteTech = 'TECH_RIFLING', GoodyHutUpgradeUnitClass = 'UNITCLASS_EE_UHLAN' 
 WHERE Type = 'UNIT_LANCER';
@@ -254,10 +245,14 @@ WHERE Type = 'UNIT_LANCER';
 UPDATE Units SET ObsoleteTech = 'TECH_RIFLING'
 WHERE Type = 'UNIT_SIAMESE_WARELEPHANT' OR Type = 'UNIT_BYZANTINE_CATAPHRACT';
 
-INSERT INTO Unit_FreePromotions (UnitType, PromotionType) VALUES
-('UNIT_EE_UHLAN', 'PROMOTION_NO_DEFENSIVE_BONUSES'),
-('UNIT_EE_UHLAN', 'PROMOTION_CAN_MOVE_AFTER_ATTACKING'),
-('UNIT_EE_UHLAN', 'PROMOTION_CITY_PENALTY'),
+INSERT INTO Unit_FreePromotions
+		(UnitType, PromotionType)
+SELECT 'UNIT_EE_UHLAN', PromotionType
+FROM Unit_FreePromotions WHERE UnitType = 'UNIT_LANCER';
+
+INSERT INTO Unit_FreePromotions
+		(UnitType, PromotionType)
+VALUES
 ('UNIT_EE_UHLAN', 'PROMOTION_ANTI_MOUNTED_I');
 
 -------------------------------------------------------
@@ -276,29 +271,13 @@ SET ObsoleteTech = 'TECH_COMBUSTION', GoodyHutUpgradeUnitClass = 'UNITCLASS_EE_U
 WHERE Type IN ('UNIT_OTTOMAN_SIPAHI', 'UNIT_POLISH_WINGED_HUSSAR');
 
 UPDATE Units SET Combat = '38' WHERE Type = 'UNIT_POLISH_WINGED_HUSSAR';
--------------------------------------------------------
--- Spanish Conquistador (XVI-XVII cent.)
--- The armament consisted of a spear, a steel shield, a helmet called a "Morion", a hilted sword, and sometimes a horse saddle with leather shell.
--------------------------------------------------------
-
---UPDATE Civilization_UnitClassOverrides SET UnitClassType = 'UNITCLASS_LANCER' WHERE UnitType = 'UNIT_SPANISH_CONQUISTADOR';
-
---UPDATE Units
---SET Combat = 35, Range = 0, Class = 'UNITCLASS_LANCER', PrereqTech = 'TECH_EE_EXPLORATION', ObsoleteTech = 'TECH_COMBUSTION', GoodyHutUpgradeUnitClass = 'UNITCLASS_EE_UHLAN'
---WHERE Type = 'UNIT_SPANISH_CONQUISTADOR';
-
---UPDATE Unit_ClassUpgrades
---SET UnitClassType = 'UNITCLASS_EE_UHLAN'
---WHERE UnitType = 'UNIT_SPANISH_CONQUISTADOR';
-
---DELETE FROM Unit_AITypes WHERE UnitType = 'UNIT_SPANISH_CONQUISTADOR' AND UnitAIType = 'UNITAI_ATTACK';
 
 -------------------------------------------------------
 -- Light Infantry (upgrade from Musketman)
 -------------------------------------------------------
 
 UPDATE Units
-SET RangedCombat = 37, Range = 2
+SET RangedCombat = 37, Range = 2, ObsoleteTech = (SELECT PrereqTech FROM Units WHERE Type = 'UNIT_GATLINGGUN')
 WHERE Type = 'UNIT_EE_SKIRMISHER';
 
 -- Infixo: proper upgrade for Musketman and Civs' uniques
@@ -308,24 +287,26 @@ WHERE UnitType IN (SELECT Type FROM Units WHERE Class = 'UNITCLASS_MUSKETMAN');
 
 UPDATE Units SET ObsoleteTech = 'TECH_EE_FORTIFICATION', GoodyHutUpgradeUnitClass = 'UNITCLASS_EE_SKIRMISHER' WHERE Type = 'UNIT_MUSKETMAN';
 
-INSERT INTO Unit_FreePromotions (UnitType, PromotionType) VALUES
-('UNIT_EE_SKIRMISHER', 'PROMOTION_CBOEE_SKIRMISH'),
-('UNIT_EE_SKIRMISHER', 'PROMOTION_NAVAL_MISFIRE'),
-('UNIT_EE_SKIRMISHER', 'PROMOTION_ONLY_DEFENSIVE');
+INSERT INTO Unit_FreePromotions
+		(UnitType, PromotionType)
+SELECT 'UNIT_EE_SKIRMISHER', PromotionType
+FROM Unit_FreePromotions WHERE UnitType = 'UNIT_MUSKETMAN';
 
--- move Gatling Gun a bit further; each Archery will be in 2nd column of an era
-UPDATE Units SET PrereqTech = 'TECH_DYNAMITE' WHERE Type = 'UNIT_GATLINGGUN';
+INSERT INTO Unit_FreePromotions (UnitType, PromotionType) VALUES
+('UNIT_EE_SKIRMISHER', 'PROMOTION_CBOEE_SKIRMISH');
 
 -------------------------------------------------------
 -- Line Infantry
 -------------------------------------------------------
 
 UPDATE Units
-SET IgnoreBuildingDefense = 1, Conscription = 5
+SET IgnoreBuildingDefense = 1, Conscription = 5, ObsoleteTech = (SELECT PrereqTech FROM Units WHERE Type = 'UNIT_RIFLEMAN')
 WHERE Type = 'UNIT_EE_LINE_INFANTRY';
 
-INSERT INTO Unit_FreePromotions	(UnitType, PromotionType)
-VALUES ('UNIT_EE_LINE_INFANTRY', 'PROMOTION_FORMATION_1');
+INSERT INTO Unit_FreePromotions
+		(UnitType, PromotionType)
+SELECT 'UNIT_EE_LINE_INFANTRY', PromotionType
+FROM Unit_FreePromotions WHERE UnitType = 'UNIT_SPANISH_TERCIO';
 
 --UPDATE Units
 --SET Class = 'UNITCLASS_EE_LINE_INFANTRY', PrereqTech = 'TECH_EE_FLINTLOCK', GoodyHutUpgradeUnitClass = 'UNITCLASS_RIFLEMAN', ObsoleteTech = 'TECH_RIFLING' -- Combat, Cost, FaithCost
@@ -339,8 +320,8 @@ UPDATE Civilization_UnitClassOverrides Set UnitClassType = 'UNITCLASS_EE_LINE_IN
 
 UPDATE Units 
 SET Class = 'UNITCLASS_EE_LINE_INFANTRY', CombatClass = 'UNITCOMBAT_GUN', GoodyHutUpgradeUnitClass = 'UNITCLASS_RIFLEMAN',
-	Combat = 30, Range = 0, RangedCombat = 0, 
-	PrereqTech = 'TECH_EE_FLINTLOCK', ObsoleteTech = 'TECH_REPLACEABLE_PARTS', DefaultUnitAI = 'UNITAI_DEFENSE'
+	Combat = 32, Range = 0, RangedCombat = 0, 
+	PrereqTech = 'TECH_EE_FLINTLOCK', ObsoleteTech = (SELECT ObsoleteTech FROM Units WHERE Type = 'UNIT_RIFLEMAN'), DefaultUnitAI = 'UNITAI_DEFENSE'
 WHERE Type = 'UNIT_AMERICAN_MINUTEMAN';
 
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_RIFLEMAN' WHERE UnitType = 'UNIT_AMERICAN_MINUTEMAN';
@@ -351,21 +332,23 @@ INSERT INTO Unit_AITypes (UnitType, UnitAIType) VALUES
 ('UNIT_AMERICAN_MINUTEMAN', 'UNITAI_ATTACK'),
 ('UNIT_AMERICAN_MINUTEMAN', 'UNITAI_DEFENSE');
 
-DELETE From Unit_FreePromotions WHERE UnitType = 'UNIT_AMERICAN_MINUTEMAN' AND PromotionType = 'PROMOTION_NAVAL_MISFIRE';
-DELETE From Unit_FreePromotions WHERE UnitType = 'UNIT_AMERICAN_MINUTEMAN' AND PromotionType = 'PROMOTION_ONLY_DEFENSIVE';
-DELETE From Unit_FreePromotions WHERE UnitType = 'UNIT_AMERICAN_MINUTEMAN' AND PromotionType = 'PROMOTION_BARRAGE_1';
+DELETE From Unit_FreePromotions WHERE UnitType = 'UNIT_AMERICAN_MINUTEMAN' AND PromotionType IN('PROMOTION_NAVAL_MISFIRE', 'PROMOTION_ONLY_DEFENSIVE', 'PROMOTION_BARRAGE_1', 'PROMOTION_ACCURACY_1');
+INSERT INTO Unit_FreePromotions (UnitType, PromotionType) SELECT 'UNIT_AMERICAN_MINUTEMAN', PromotionType FROM Unit_FreePromotions WHERE UnitType = 'UNIT_EE_LINE_INFANTRY';
 INSERT INTO Unit_FreePromotions (UnitType, PromotionType) SELECT 'UNIT_AMERICAN_MINUTEMAN', 'PROMOTION_DRILL_1';
 
 -------------------------------------------------------
 -- Field Gun and Howitzer
 -------------------------------------------------------
+-- UNIT_FIELD_GUN is VP's Field Gun, which will be renamed to Howitzer
 
 UPDATE Units
-SET RangedCombat = 35, Range = 2, IgnoreBuildingDefense = 1, MoveRate = 'ARTILLERY'
+SET RangedCombat = 35, Range = 2, IgnoreBuildingDefense = 1, MoveRate = 'ARTILLERY', ObsoleteTech = (SELECT PrereqTech FROM Units WHERE Type = 'UNIT_FIELD_GUN')
 WHERE Type = 'UNIT_EE_FIELD_GUN';
 
-INSERT INTO Unit_ResourceQuantityRequirements (UnitType, ResourceType, Cost)
-VALUES ('UNIT_EE_FIELD_GUN', 'RESOURCE_IRON', 1);
+INSERT INTO Unit_ResourceQuantityRequirements
+		(UnitType, ResourceType, Cost)
+SELECT 'UNIT_EE_FIELD_GUN', ResourceType, Cost
+FROM Unit_ResourceQuantityRequirements WHERE UnitType = 'UNIT_FIELD_GUN';
 
 UPDATE UnitClasses
 SET Description = 'TXT_KEY_UNIT_FIELD_GUN'
@@ -384,18 +367,12 @@ UPDATE Units
 SET ObsoleteTech = 'TECH_EE_FLINTLOCK', GoodyHutUpgradeUnitClass = 'UNITCLASS_EE_FIELD_GUN'
 WHERE Type = 'UNIT_CANNON';
 
--- Field Gun -> Howitzer
---UPDATE Unit_ClassUpgrades
---SET UnitClassType = 'UNITCLASS_FIELD_GUN'
---WHERE UnitType IN (SELECT Type FROM Units WHERE Class = 'UNITCLASS_EE_FIELD_GUN');
---INSERT INTO Unit_ClassUpgrades (UnitType, UnitClassType)
---VALUES ('UNIT_EE_FIELD_GUN', 'UNITCLASS_FIELD_GUN');
-
 INSERT INTO Unit_FreePromotions (UnitType, PromotionType) SELECT 'UNIT_EE_FIELD_GUN', PromotionType FROM Unit_FreePromotions WHERE UnitType = 'UNIT_FIELD_GUN';
 
 -------------------------------------------------------
 -- Carrack
 -------------------------------------------------------
+UPDATE Units SET ObsoleteTech = (SELECT PrereqTech FROM Units WHERE Type = 'UNIT_PRIVATEER') WHERE Type = 'UNIT_EE_CARRACK';
 
 -- Caravel changes (->Carrack)
 UPDATE Units
@@ -406,8 +383,6 @@ UPDATE Unit_ClassUpgrades
 SET UnitClassType = 'UNITCLASS_EE_CARRACK'
 WHERE UnitType = 'UNIT_CARAVEL';
 
-UPDATE Units SET GoodyHutUpgradeUnitClass = 'UNITCLASS_IRONCLAD' WHERE Type = 'UNIT_PRIVATEER'; -- Corvette
-
 -------------------------------------------------------
 -- Portuguese Nau
 -------------------------------------------------------
@@ -415,40 +390,29 @@ UPDATE Units SET GoodyHutUpgradeUnitClass = 'UNITCLASS_IRONCLAD' WHERE Type = 'U
 UPDATE Civilization_UnitClassOverrides SET UnitClassType = 'UNITCLASS_EE_CARRACK' WHERE UnitType = 'UNIT_PORTUGUESE_NAU';
 
 UPDATE Units 
-SET Combat = 36, Moves = 5, Class = 'UNITCLASS_EE_CARRACK', PrereqTech = 'TECH_ASTRONOMY', ObsoleteTech = 'TECH_INDUSTRIALIZATION', GoodyHutUpgradeUnitClass = 'UNITCLASS_PRIVATEER'
+SET Combat = 36, Moves = 5, Class = 'UNITCLASS_EE_CARRACK', PrereqTech = 'TECH_ASTRONOMY', ObsoleteTech = (SELECT PrereqTech FROM Units WHERE Type = 'UNIT_IRONCLAD'), GoodyHutUpgradeUnitClass = 'UNITCLASS_PRIVATEER'
 WHERE Type = 'UNIT_PORTUGUESE_NAU';
 
 UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_PRIVATEER' WHERE UnitType = 'UNIT_PORTUGUESE_NAU';
 
 -------------------------------------------------------
--- Dutch Sea Beggar - replacement for Carrack (change from Privateer)
--- Related to William of Orange, so XVI-XII cent., late Renaissance
--------------------------------------------------------
-
---UPDATE Civilization_UnitClassOverrides SET UnitClassType = 'UNITCLASS_EE_CARRACK' WHERE UnitType = 'UNIT_DUTCH_SEA_BEGGAR';
-
-UPDATE Units
-SET PrereqTech = 'TECH_EE_EXPLORATION', ObsoleteTech = 'TECH_COMBUSTION'
-WHERE Type = 'UNIT_DUTCH_SEA_BEGGAR';
-
---UPDATE Unit_ClassUpgrades SET UnitClassType = 'UNITCLASS_PRIVATEER' WHERE UnitType = 'UNIT_DUTCH_SEA_BEGGAR';
-
--------------------------------------------------------
 -- Polynesian UA
 -------------------------------------------------------
 
-INSERT INTO Trait_BuildsUnitClasses	(TraitType, UnitClassType, BuildType) VALUES
-('TRAIT_WAYFINDING', 'UNITCLASS_EE_CARRACK', 'BUILD_FISHING_BOATS'),
-('TRAIT_WAYFINDING', 'UNITCLASS_EE_SHIP_OF_THE_LINE', 'BUILD_FISHING_BOATS');
+INSERT INTO Trait_BuildsUnitClasses
+		(TraitType, UnitClassType, BuildType)
+SELECT DISTINCT buc.TraitType, uc.Type, buc.BuildType FROM UnitClasses uc, Trait_BuildsUnitClasses buc WHERE
+uc.Type IN('UNITCLASS_EE_CARRACK', 'UNITCLASS_EE_SHIP_OF_THE_LINE') AND buc.TraitType = 'TRAIT_WAYFINDING';
 
 -------------------------------------------------------
 -- English UU - classic CBP SotL
 -------------------------------------------------------
 
-UPDATE Units
-SET PrereqTech = 'TECH_NAVIGATION', ObsoleteTech = 'TECH_NUCLEAR_FISSION', GoodyHutUpgradeUnitClass = 'UNITCLASS_CRUISER', Civilopedia = 'TXT_KEY_UNIT_EE_ENGLISH_FIRST_RATE_PEDIA',
-	Combat = 28, ShowInPedia = 1,
-	IconAtlas = 'ENLIGHTENMENT_UNIT_ATLAS', PortraitIndex = 8
+UPDATE Units SET
+	PrereqTech = 'TECH_NAVIGATION', -- up to 6 techs earlier than Frigate in EE
+	Civilopedia = 'TXT_KEY_UNIT_EE_ENGLISH_FIRST_RATE_PEDIA',
+	IconAtlas = 'ENLIGHTENMENT_UNIT_ATLAS',
+	PortraitIndex = 8
 WHERE Type = 'UNIT_ENGLISH_SHIPOFTHELINE';
 
 INSERT INTO Unit_FreePromotions (UnitType, PromotionType)
@@ -459,11 +423,12 @@ VALUES ('UNIT_ENGLISH_SHIPOFTHELINE', 'PROMOTION_EE_FIRST_RATE');
 -------------------------------------------------------
 
 UPDATE Units
-SET RangedCombat = 29, Range = 2
+SET RangedCombat = 29, Range = 2, ObsoleteTech = 'TECH_EE_WARSHIPS'
 WHERE Type = 'UNIT_EE_GALLEON';
 
-INSERT INTO Unit_FreePromotions (UnitType, PromotionType) VALUES
-('UNIT_EE_GALLEON', 'PROMOTION_ONLY_DEFENSIVE');
+INSERT INTO Unit_FreePromotions
+	(UnitType, PromotionType)
+SELECT 'UNIT_EE_GALLEON', PromotionType FROM Unit_FreePromotions WHERE UnitType = 'UNIT_FRIGATE';
 
 -- Galleass changes
 UPDATE Units
@@ -472,12 +437,7 @@ WHERE Type = 'UNIT_GALLEASS';
 
 UPDATE Unit_ClassUpgrades
 SET UnitClassType = 'UNITCLASS_EE_GALLEON'
-WHERE UnitType = 'UNIT_GALLEASS';
-
--- Great Galleass changes
---UPDATE Units
---SET Combat = 13
---WHERE Type = 'UNIT_VENETIAN_GALLEASS';
+WHERE UnitType IN(SELECT Type FROM Units WHERE Class = 'UNITCLASS_GALLEASS');
 
 UPDATE Unit_ClassUpgrades
 SET UnitClassType = 'UNITCLASS_EE_GALLEON'
@@ -485,7 +445,7 @@ WHERE UnitType = 'UNIT_VENETIAN_GALLEASS';
 
 -- Frigate changes
 UPDATE Units
-SET GoodyHutUpgradeUnitClass = 'UNITCLASS_CRUISER', PrereqTech = 'TECH_EE_WARSHIPS', ObsoleteTech = 'TECH_DYNAMITE'
+SET PrereqTech = 'TECH_EE_WARSHIPS'
 WHERE Type = 'UNIT_FRIGATE';
 
 UPDATE Units
@@ -495,6 +455,12 @@ WHERE Type = 'UNIT_CRUISER';
 -------------------------------------------------------
 -- Ship of the Line - new strong naval melee unit
 -------------------------------------------------------
+UPDATE Units SET ObsoleteTech = (SELECT PrereqTech FROM Units WHERE Type = 'UNIT_IRONCLAD') WHERE Type = 'UNIT_EE_SHIP_OF_THE_LINE';
+
+INSERT INTO Unit_FreePromotions
+		(UnitType, PromotionType)
+SELECT 'UNIT_EE_SHIP_OF_THE_LINE', PromotionType
+FROM Unit_FreePromotions WHERE UnitType = 'UNIT_PRIVATEER';
 
 INSERT INTO Unit_FreePromotions (UnitType, PromotionType) VALUES
 ('UNIT_EE_SHIP_OF_THE_LINE', 'PROMOTION_EE_FIRST_RATE'),
@@ -545,9 +511,7 @@ UPDATE Units SET Cost = 300, FaithCost = 400 WHERE Type = 'UNIT_EE_ADVENTURER';
 UPDATE Units SET Cost = 300, FaithCost = 400 WHERE Type = 'UNIT_2HANDER';
 UPDATE Units SET Cost = 250, FaithCost = 370 WHERE Type = 'UNIT_EE_CARRACK'; -- Renaissance, takes place of PRIVATEER
 UPDATE Units SET Cost = 250, FaithCost = 370 WHERE Type = 'UNIT_PORTUGUESE_NAU'; -- replaces EE_CARRACK (originally PRIVATEER)
-UPDATE Units SET Cost = 250, FaithCost = 370 WHERE Type = 'UNIT_DUTCH_SEA_BEGGAR'; -- replaces EE_CARRACK (originally PRIVATEER)
 UPDATE Units SET Cost = 310, FaithCost = 410 WHERE Type = 'UNIT_EE_GALLEON'; -- Renaissance, takes place of FRIGATE
--- UPDATE Units SET Cost = 350, FaithCost = 400 WHERE Type = 'UNIT_SPANISH_CONQUISTADOR'; -- replaces LANCER (originally KNIGHT)
 -- Enlightenment
 UPDATE Units SET Cost = 400, FaithCost = 500 WHERE Type = 'UNIT_EE_LINE_INFANTRY';
 UPDATE Units SET Cost = 400, FaithCost = 500 WHERE Type = 'UNIT_SWEDISH_CAROLEAN'; -- replaces EE_LINE_INF (originally TERCIO)
@@ -666,11 +630,6 @@ UPDATE Language_en_US
 SET Text = 'Naval Unit that attacks as a melee unit. It is stronger and faster than the Carrack.'
 WHERE Tag IN ('TXT_KEY_UNIT_PRIVATEER_STRATEGY');
 
--- Dutch Sea Beggar
---UPDATE Language_en_US
---SET Text = 'Naval Unit that specializes in attacking coastal cities to earn gold and capturing enemy ships. Stronger than Carrack, which it replaces. Only the Dutch can build it.'
---WHERE Tag = 'TXT_KEY_UNIT_HELP_SEA_BEGGAR';
-
 -- Portugese Nau
 UPDATE Language_en_US 
 SET Text = 'Melee naval unit which excels at sea exploration. Has higher Combat Strength than the Carrack, and can perform an ability when adjacent to City-States to earn [ICON_GOLD] Gold and XP. May only be built by the Portuguese. [NEWLINE][NEWLINE]If possible, when a Nau sells its Exotic Cargo, a Feitoria is [COLOR_POSITIVE_TEXT]automatically created[ENDCOLOR] in its territory.'
@@ -683,14 +642,6 @@ WHERE Tag = 'TXT_KEY_UNIT_PORTUGUESE_NAU_STRATEGY';
 UPDATE Language_en_US 
 SET Text = 'Caroleans are the backbone of the Enlightenment era Swedish army. They start with the March promotion that allows it to Heal every turn, even if it performs an action. The Carolean also receives a 15% combat bonus when stacked with a Great General, and deals damage to all adjacent units after advancing from killing a unit.'
 WHERE Tag = 'TXT_KEY_UNIT_SWEDISH_CAROLEAN_STRATEGY';
-
--- Spanish Conquistador
---UPDATE Language_en_US
---SET Text = 'Renaissance Era unit that specializes in scouting and colonizing overseas. Only Spain may build it. Replaces the Lancer, but is available with Exploration.'
---WHERE Tag = 'TXT_KEY_CIV5_SPAIN_CONQUISTADOR_HELP';
---UPDATE Language_en_US
---SET Text = 'The Conquistador is a multi-purpose unit that is strong both on land and at sea. Replacing the Lancer but becoming available with Exploration instead of Metallurgy, it is an exceptional scout on land with extra visibility. It also has the ability to found new cities, but only on a foreign continent that does not contain the Spanish capital. In the water, the Conquistador has the defensive embarkation promotion that allows it to better defend itself against naval units. It also suffers no penalty when attacking cities, unlike the Lancer.'
---WHERE Tag IN ('TXT_KEY_CIV5_SPAIN_CONQUISTADOR_STRATEGY');
 
 -- Russian Cossack
 UPDATE Language_en_US
